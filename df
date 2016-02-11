@@ -1,0 +1,106 @@
+[1mdiff --git a/lists/migrations/0003_list.py b/lists/migrations/0003_list.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..afa1f9d[m
+[1m--- /dev/null[m
+[1m+++ b/lists/migrations/0003_list.py[m
+[36m@@ -0,0 +1,21 @@[m
+[32m+[m[32m# -*- coding: utf-8 -*-[m
+[32m+[m[32mfrom __future__ import unicode_literals[m
+[32m+[m
+[32m+[m[32mfrom django.db import migrations, models[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Migration(migrations.Migration):[m
+[32m+[m
+[32m+[m[32m    dependencies = [[m
+[32m+[m[32m        ('lists', '0002_item_text'),[m
+[32m+[m[32m    ][m
+[32m+[m
+[32m+[m[32m    operations = [[m
+[32m+[m[32m        migrations.CreateModel([m
+[32m+[m[32m            name='List',[m
+[32m+[m[32m            fields=[[m
+[32m+[m[32m                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),[m
+[32m+[m[32m                ('list', models.TextField(default='')),[m
+[32m+[m[32m            ],[m
+[32m+[m[32m        ),[m
+[32m+[m[32m    ][m
+[1mdiff --git a/lists/migrations/0004_auto_20160204_1102.py b/lists/migrations/0004_auto_20160204_1102.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8bb9570[m
+[1m--- /dev/null[m
+[1m+++ b/lists/migrations/0004_auto_20160204_1102.py[m
+[36m@@ -0,0 +1,23 @@[m
+[32m+[m[32m# -*- coding: utf-8 -*-[m
+[32m+[m[32mfrom __future__ import unicode_literals[m
+[32m+[m
+[32m+[m[32mfrom django.db import migrations, models[m
+[32m+[m
+[32m+[m
+[32m+[m[32mclass Migration(migrations.Migration):[m
+[32m+[m
+[32m+[m[32m    dependencies = [[m
+[32m+[m[32m        ('lists', '0003_list'),[m
+[32m+[m[32m    ][m
+[32m+[m
+[32m+[m[32m    operations = [[m
+[32m+[m[32m        migrations.RemoveField([m
+[32m+[m[32m            model_name='list',[m
+[32m+[m[32m            name='list',[m
+[32m+[m[32m        ),[m
+[32m+[m[32m        migrations.AddField([m
+[32m+[m[32m            model_name='item',[m
+[32m+[m[32m            name='list',[m
+[32m+[m[32m            field=models.ForeignKey(default=None, to='lists.List'),[m
+[32m+[m[32m        ),[m
+[32m+[m[32m    ][m
+[1mdiff --git a/lists/urls.py b/lists/urls.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d8de5c6[m
+[1m--- /dev/null[m
+[1m+++ b/lists/urls.py[m
+[36m@@ -0,0 +1,22 @@[m
+[32m+[m[32m"""superlists URL Configuration[m
+[32m+[m
+[32m+[m[32mThe `urlpatterns` list routes URLs to views. For more information please see:[m
+[32m+[m[32m    https://docs.djangoproject.com/en/1.8/topics/http/urls/[m
+[32m+[m[32mExamples:[m
+[32m+[m[32mFunction views[m
+[32m+[m[32m    1. Add an import:  from my_app import views[m
+[32m+[m[32m    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')[m
+[32m+[m[32mClass-based views[m
+[32m+[m[32m    1. Add an import:  from other_app.views import Home[m
+[32m+[m[32m    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')[m
+[32m+[m[32mIncluding another URLconf[m
+[32m+[m[32m    1. Add an import:  from blog import urls as blog_urls[m
+[32m+[m[32m    2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))[m
+[32m+[m[32m"""[m
+[32m+[m[32mfrom django.conf.urls import url[m
+[32m+[m
+[32m+[m[32murlpatterns = [[m
+[32m+[m[32m    url(r'^(\d+)/$', 'lists.views.view_list', name='view_list'),[m
+[32m+[m[32m    url(r'^(\d+)/add_item$', 'lists.views.add_item', name='add_item'),[m
+[32m+[m[32m    url(r'^new$', 'lists.views.new_list', name='new_list'),[m
+[32m+[m[32m ][m
+[1mdiff --git a/superlists/urls.py b/superlists/urls.py[m
+[1mindex 7f41193..3b03c94 100644[m
+[1m--- a/superlists/urls.py[m
+[1m+++ b/superlists/urls.py[m
+[36m@@ -18,8 +18,6 @@[m [mfrom django.contrib import admin[m
+ [m
+ urlpatterns = [[m
+     url(r'^$', 'lists.views.home_page', name='home'),[m
+[31m-    url(r'^lists/(\d+)/$', 'lists.views.view_list', name='view_list'),[m
+[31m-    url(r'^lists/(\d+)/add_item$', 'lists.views.add_item', name='add_item'),[m
+[31m-    url(r'^lists/new$', 'lists.views.new_list', name='new_list'),[m
+[32m+[m[32m    url(r'^lists/', include('lists.urls')),[m
+     #url(r'^admin/', include(admin.site.urls)),[m
+ ][m
+warning: LF will be replaced by CRLF in lists/migrations/0003_list.py.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in lists/migrations/0004_auto_20160204_1102.py.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in lists/urls.py.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in superlists/urls.py.
+The file will have its original line endings in your working directory.
